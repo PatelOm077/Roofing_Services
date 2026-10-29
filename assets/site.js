@@ -274,6 +274,13 @@
 
   /* ---------- make muted videos play on phones ---------- */
   function initVideos() {
+    // hero: vertical video on phones, wide video on bigger screens
+    var hv = $('#hero-vid');
+    if (hv && !hv.getAttribute('src')) {
+      var phone = window.matchMedia('(max-width: 699px)').matches;
+      if (phone && hv.getAttribute('data-poster-m')) hv.setAttribute('poster', hv.getAttribute('data-poster-m'));
+      hv.src = hv.getAttribute(phone ? 'data-src-m' : 'data-src-d');
+    }
     $$('video[autoplay]').forEach(function (v) {
       v.muted = true;
       var p = v.play && v.play();
