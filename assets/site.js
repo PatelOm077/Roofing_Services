@@ -75,36 +75,32 @@
     if (!body) return;
     var listEl = $('#q-list'), stepNum = $('#q-stepnum'), bar = $('#q-bar'), card = $('#q-card'), prog = $('#q-prog');
     var SERVICES = [
-      { id: 'repair', label: 'Roof repair or leak', sub: 'Drips, stains, missing shingles', lo: 450, hi: 1200, scale: 0.3 },
-      { id: 'storm', label: 'Storm or hail damage', sub: 'We meet your insurance adjuster', lo: 2500, hi: 6500, scale: 1 },
-      { id: 'replace', label: 'New roof', sub: 'Tear-off and replacement, usually 1 day', lo: 9500, hi: 14500, scale: 1 },
-      { id: 'ac', label: 'AC not cooling', sub: 'Same-day repair, all brands', lo: 180, hi: 650, scale: 0.15 },
-      { id: 'heat', label: 'Heating or furnace', sub: 'Furnace and heat pump repair', lo: 160, hi: 600, scale: 0.15 },
-      { id: 'system', label: 'New AC or furnace', sub: 'Sized to your home, financing available', lo: 6800, hi: 11500, scale: 0.8 },
-      { id: 'other', label: 'Something else', sub: 'Gutters, a past job, a question' }
+      { id: 'repair', label: 'Roof repair or leak', lo: 250, hi: 650, scale: 0.3 },
+      { id: 'storm', label: 'Storm or hail damage', lo: 1500, hi: 4000, scale: 1 },
+      { id: 'replace', label: 'New roof', lo: 6500, hi: 9500, scale: 1 },
+      { id: 'hvac', label: 'AC or heating', lo: 120, hi: 450, scale: 0.15 },
+      { id: 'other', label: 'Something else' }
     ];
     var SIZES = [
-      { id: 's', label: 'Under 1,500 sq ft', sub: 'Smaller ranch or starter home', m: 0.75 },
-      { id: 'm', label: '1,500 – 2,500 sq ft', sub: 'Typical single-story', m: 1 },
-      { id: 'l', label: '2,500 – 3,500 sq ft', sub: 'Large or two-story', m: 1.3 },
-      { id: 'xl', label: '3,500+ sq ft', sub: 'Big custom home', m: 1.6 }
+      { id: 's', label: 'Small', sub: 'Under 1,500 sq ft', m: 0.8 },
+      { id: 'm', label: 'Medium', sub: '1,500 – 2,500 sq ft', m: 1 },
+      { id: 'l', label: 'Large', sub: '2,500+ sq ft', m: 1.3 }
     ];
     var URGENCY = [
-      { id: 'now', label: 'Emergency, today', sub: 'Active leak, no AC or no heat' },
-      { id: 'week', label: 'This week', sub: 'Something needs fixing soon' },
-      { id: 'month', label: 'Within a month', sub: 'Planning ahead' },
-      { id: 'price', label: 'Just comparing prices', sub: 'No pressure, honestly' }
+      { id: 'now', label: 'Emergency, today' },
+      { id: 'week', label: 'This week' },
+      { id: 'price', label: 'Just checking prices' }
     ];
     var TIMES = [
-      { id: 'now', label: 'Right now', sub: 'Call me ASAP', when: 'in the next few minutes' },
-      { id: 'morning', label: 'Morning', sub: '8am – noon', when: 'this morning' },
-      { id: 'afternoon', label: 'Afternoon', sub: 'Noon – 5pm', when: 'this afternoon' },
-      { id: 'evening', label: 'Evening', sub: 'After 5pm', when: 'after 5pm' }
+      { id: 'now', label: 'Right now', when: 'in the next few minutes' },
+      { id: 'today', label: 'Later today', when: 'later today' },
+      { id: 'tomorrow', label: 'Tomorrow', when: 'tomorrow' }
     ];
     var LABELS = { service: 'What you need', size: 'Home size', urgency: 'How soon', price: 'Your estimate', time: 'Call time', name: 'Your name', phone: 'Your mobile' };
     var s = { i: 0, service: null, size: null, urgency: null, time: null, name: '', phone: '', err: '', done: false };
 
     var pre = (location.search.match(/[?&]s=([a-z]+)/) || [])[1];
+    if (pre === 'ac' || pre === 'heat' || pre === 'system') pre = 'hvac';
     if (pre && find(SERVICES, pre)) { s.service = pre; s.i = 1; }
 
     function order() { return s.service === 'other' ? ['service', 'urgency', 'time', 'name', 'phone'] : ['service', 'size', 'urgency', 'price', 'time', 'name', 'phone']; }
@@ -146,32 +142,32 @@
         var first = s.name.trim().split(' ')[0];
         h = '<div class="wdone"><div class="wtick" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></div>' +
           '<h2>' + esc(first ? "You're booked in, " + first + '.' : "You're booked in.") + '</h2>' +
-          '<p>Erik will call ' + esc(s.phone) + ' ' + esc(time ? time.when : 'soon') + '.' + (c ? ' Your ballpark: ' + money(c.lo) + ' – ' + money(c.hi) + '.' : '') + ' Water coming in or no AC? Don’t wait, call ' + PHONE + '.</p>' +
+          '<p>Erik will call ' + esc(s.phone) + ' ' + esc(time ? time.when : 'soon') + '.' + (c ? ' Ballpark: ' + money(c.lo) + ' – ' + money(c.hi) + '.' : '') + '</p>' +
           '<div class="wtags">' + [svc && svc.label, c && c.size.label, urg && urg.label, time && 'Call: ' + time.label].filter(Boolean).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' +
           '<span class="sig">— Erik</span>' +
           '<a class="btn btn-line" href="index.html" style="align-self:flex-start">Back to home</a></div>' +
           '<button type="button" class="wlink" data-act="restart">↺ Start a new quote</button>';
       } else if (key === 'service') {
-        h = '<div class="wstep">' + q('What do you need help with?', 'Pick the closest one.') + opts(SERVICES, s.service) + '</div>';
+        h = '<div class="wstep">' + q('What do you need?') + opts(SERVICES, s.service) + '</div>';
       } else if (key === 'size') {
-        h = '<div class="wstep">' + q('How big is the home?', 'A rough guess is fine.') + opts(SIZES, s.size) + '</div>';
+        h = '<div class="wstep">' + q('How big is the home?') + opts(SIZES, s.size) + '</div>';
       } else if (key === 'urgency') {
-        h = '<div class="wstep">' + q('How soon do you need us?', 'Emergencies go to the front of the line.') + opts(URGENCY, s.urgency) + '</div>';
+        h = '<div class="wstep">' + q('How soon?') + opts(URGENCY, s.urgency) + '</div>';
       } else if (key === 'price') {
         var note = s.urgency === 'now'
-          ? 'Emergency crew can be out today. After-hours callout is +$150, waived if you go ahead with the job.'
-          : (s.service === 'storm' ? 'Storm damage is often covered by homeowners insurance. We meet your adjuster on the roof, free.' : 'Final price is confirmed in writing after a free on-site inspection.');
+          ? 'Emergency crew can be out today.'
+          : (s.service === 'storm' ? 'Often covered by insurance. We meet your adjuster free.' : 'Final price confirmed after a free inspection.');
         h = '<div class="wstep"><span class="eyebrow" style="color:var(--muted)">Your ballpark</span><div class="wprice">' + money(c.lo) + ' – ' + money(c.hi) + '</div>' +
-          '<p class="wsub" style="margin:0">' + esc(c.svc.label + ' · ' + c.size.label) + '</p>' +
+          '<p class="wsub" style="margin:0">' + esc(c.svc.label + ' · ' + c.size.label.toLowerCase() + ' home') + '</p>' +
           '<div class="wnote"><b aria-hidden="true">!</b><span>' + esc(note) + '</span></div>' +
-          '<button type="button" class="btn btn-acc" data-act="next">Book my free inspection →</button></div>';
+          '<button type="button" class="btn btn-acc" data-act="next">Book a free inspection →</button></div>';
       } else if (key === 'time') {
-        h = '<div class="wstep">' + q('When should we call you?', 'Texas time.') + opts(TIMES, s.time) + '</div>';
+        h = '<div class="wstep">' + q('When should we call?') + opts(TIMES, s.time) + '</div>';
       } else if (key === 'name') {
-        h = '<form class="wstep" data-act="name" novalidate>' + q('Who should we ask for?') + field('q-name', 'Your name', 'text', 'name', 'First name is fine', s.name) +
+        h = '<form class="wstep" data-act="name" novalidate>' + q('Your name') + field('q-name', 'Your name', 'text', 'name', 'First name is fine', s.name) +
           (s.err ? '<p class="werr" role="alert">' + esc(s.err) + '</p>' : '') + '<button type="submit" class="btn btn-ink">Continue →</button></form>';
       } else if (key === 'phone') {
-        h = '<form class="wstep" data-act="phone" novalidate>' + q('Best number to reach you?', 'We text first so you know it’s us. No spam, ever.') +
+        h = '<form class="wstep" data-act="phone" novalidate>' + q('Your mobile number') +
           field('q-phone', 'Mobile', 'tel', 'tel', '(817) 000-0000', s.phone) +
           (s.err ? '<p class="werr" role="alert">' + esc(s.err) + '</p>' : '') + '<button type="submit" class="btn btn-acc">Send my request →</button></form>';
       }
