@@ -41,13 +41,15 @@
       els.forEach(function (e) { e.classList.add('in'); });
       return;
     }
+    // only hide sections once this script is actually running, so a stale or failed script can never leave the page blank
+    document.documentElement.classList.add('rv-on');
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (!en.isIntersecting) return;
         en.target.classList.add('in');
         io.unobserve(en.target);
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
     els.forEach(function (e) { io.observe(e); });
     var co = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {

@@ -309,12 +309,12 @@ a:hover .arrow,button:hover .arrow{transform:translateX(5px)}
 .in3{animation:rise .9s var(--ease) both .45s}
 .in4{animation:rise .9s var(--ease) both .6s}
 .swipe-hint i{display:inline-block;font-style:normal;animation:nudge 1.4s ease-in-out infinite}
-.js .rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-.js .rv.in{opacity:1;transform:none}
-.js .rv.d1{transition-delay:.08s}.js .rv.d2{transition-delay:.16s}.js .rv.d3{transition-delay:.24s}
+.rv-on .rv{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv-on .rv.in{opacity:1;transform:none}
+.rv-on .rv.d1{transition-delay:.08s}.rv-on .rv.d2{transition-delay:.16s}.rv-on .rv.d3{transition-delay:.24s}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important}
-  .js .rv{opacity:1;transform:none}
+  .rv-on .rv{opacity:1;transform:none}
   html{scroll-behavior:auto}
 }
 
