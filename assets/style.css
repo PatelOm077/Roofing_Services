@@ -75,7 +75,7 @@ a:hover .arrow,button:hover .arrow{transform:translateX(5px)}
 .hero-body{position:relative;width:100%;padding:48px;display:flex;justify-content:space-between;align-items:flex-end;gap:32px}
 .hero-text{display:flex;flex-direction:column;gap:22px;max-width:780px}
 .glass{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:7px 14px;font-weight:600;font-size:15px}
-.hero h1{font-size:96px}
+.hero h1{font-size:76px}
 .hero .sub{font-size:20px;max-width:32em;color:#E7E9EC}
 .hero-btns{display:flex;gap:12px;flex-wrap:wrap}
 .hero-card{width:300px;flex:none;background:rgba(255,255,255,.12);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.22);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px}
@@ -357,7 +357,7 @@ a:hover .arrow,button:hover .arrow{transform:translateX(5px)}
   .hero-body{padding:20px}
   .hero-text{gap:14px}
   .glass{font-size:13px;padding:6px 12px}
-  .hero h1{font-size:46px}
+  .hero h1{font-size:34px;line-height:.95}
   .hero .sub{font-size:16px}
   .hero-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .hero-btns .btn{min-height:50px;padding:0 10px;font-size:16px}
