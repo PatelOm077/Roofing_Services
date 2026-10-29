@@ -74,6 +74,10 @@
     var body = $('#q-body');
     if (!body) return;
     var listEl = $('#q-list'), stepNum = $('#q-stepnum'), bar = $('#q-bar'), card = $('#q-card'), prog = $('#q-prog');
+    // always open the quote at the top, with the first question in view
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+    function toTop() { window.scrollTo(0, 0); }
+    toTop(); setTimeout(toTop, 60); window.addEventListener('load', toTop);
     var SERVICES = [
       { id: 'repair', label: 'Roof repair or leak', lo: 250, hi: 650, scale: 0.3 },
       { id: 'storm', label: 'Storm or hail damage', lo: 1500, hi: 4000, scale: 1 },
